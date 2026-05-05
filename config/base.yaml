@@ -1,0 +1,85 @@
+defaults:
+  - _self_
+  - dataset: default
+  - datamodule: default
+  - optimizer: adamw
+  - lr_scheduler: cosine
+  - data_split: full_split
+  - transforms: rotation_augmentation
+  - experiment: emgformer/regression_emgformer_small
+
+data_location: /path/to/emg2pose_v3
+
+seed: 42
+matmul_precision: null  # one of: highest, high, medium
+default_model_summary: True
+model_summary_max_depth: 2
+
+batch_size: 320
+num_workers: 4  # Number of workers for dataloading
+
+train: True  # Whether to run training
+eval: True  # Whether to run evaluation on validation and test splits
+checkpoint: null
+pretrained_checkpoint: null  # For loading backbone from pretrained model
+pretrained_strict: false
+freeze_backbone: false
+stage2_vision_checkpoint: null  # For Stage 2: load vision_proj/fusion_proj/head from vision_only ckpt
+component_lr_scales: {}  # Per-component LR scales, e.g. {featurizer: 1.0, vision_proj: 0.0}
+ignore_head_tail_dims: 0
+
+monitor_metric: val_mae
+monitor_mode: min
+
+loss_weights:
+  mae: 1
+  fingertip_distance: 0.01
+
+trainer:
+  max_epochs: 200
+  devices: [1,2,4]
+  log_every_n_steps: 1
+  precision: 32
+  enable_model_summary: False
+
+# By default: static learning rate
+callbacks:
+  - _target_: pytorch_lightning.callbacks.ModelSummary
+    max_depth: 2
+  - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+  - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    monitor: ${monitor_metric}
+    mode: ${monitor_mode}
+    save_top_k: 3
+    save_last: True
+    verbose: True
+    filename: "best-${monitor_metric}={${monitor_metric}:.4f}"
+  - _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: ${monitor_metric}
+    mode: ${monitor_mode}
+    patience: 200
+    check_on_train_epoch_end: False
+    verbose: True
+
+logger:
+  _target_: pytorch_lightning.loggers.TensorBoardLogger
+  save_dir: .
+  name: emg2pose
+  version: null
+  default_hp_metric: false
+
+# Customize hydra directory outputs
+# see: https://hydra.cc/docs/0.11/configure_hydra/workdir/
+hydra:
+  run:
+    dir: logs/${now:%Y-%m-%d}/${now:%H-%M-%S}_${hydra.job.name}
+  sweep:
+    dir: ${hydra.run.dir}
+    subdir: ${hydra.job.num}_${hydra.job.override_dirname}/seed=${seed}
+  output_subdir: hydra_configs
+  job:
+    name: emg2pose
+    config:
+      override_dirname:
+        exclude_keys:
+          - seed

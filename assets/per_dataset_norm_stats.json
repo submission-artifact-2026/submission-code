@@ -1,0 +1,10 @@
+{
+  "emg2pose": {"mean": 0.0, "std": 18.49},
+  "egoemg": {"mean": 0.00007, "std": 3.1730},
+  "pimforce": {"mean": 0.004, "std": 0.039},
+  "ninapro_db1": {"mean": 0.165, "std": 0.361},
+  "ninapro_db2": {"mean": 0.0, "std": 0.0001},
+  "ninapro_db5": {"mean": -0.946, "std": 10.14},
+  "emg2qwerty_left": {"mean": 0.0, "std": 10.56},
+  "emg2qwerty_right": {"mean": 0.0, "std": 12.38}
+}
