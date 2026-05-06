@@ -9,7 +9,7 @@ defaults:
   - override /transforms: rotation_augmentation
   - _self_
 
-checkpoint: /path/to/checkpoint.ckpt
+checkpoint: null
 pretrained_strict: false
 
 egoemg_memmap_dir: /path/to/EgoEMG_memmap

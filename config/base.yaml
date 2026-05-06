@@ -6,7 +6,7 @@ defaults:
   - lr_scheduler: cosine
   - data_split: full_split
   - transforms: rotation_augmentation
-  - experiment: emgformer/regression_emgformer_small
+  - experiment: emgformer/regression_emgformer_small_aggressive
 
 data_location: /path/to/emg2pose_v3
 

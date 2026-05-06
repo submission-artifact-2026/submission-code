@@ -52,7 +52,7 @@ datamodule:
 
 optimizer:
   lr: 0.00005
-checkpoint: /path/to/checkpoint.ckpt
+checkpoint: null
 trainer:
   gradient_clip_val: 1
   devices: [1,2,3,4,5]

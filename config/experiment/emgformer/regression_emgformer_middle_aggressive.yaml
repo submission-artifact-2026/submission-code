@@ -7,7 +7,7 @@ defaults:
   - override /lr_scheduler: cosine
   - override /transforms: emgformer_regression_aug_best
   - _self_
-checkpoint: /path/to/checkpoint.ckpt
+checkpoint: null
 pretrained_strict: true
 module:
   provide_initial_pos: False

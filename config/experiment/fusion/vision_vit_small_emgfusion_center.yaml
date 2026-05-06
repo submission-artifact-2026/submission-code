@@ -9,10 +9,10 @@
 # preds = y_v + delta  (center frame only, 22-dim)
 defaults:
   - /module: mid_fusion
-  - override /dataset: egoemg_angle_regression
-  - override /datamodule: default
-  - override /transforms: emgformer_regression_aug_best
-  - override /lr_scheduler: cosine
+  - /datamodule: default
+  - /dataset: egoemg_angle_regression
+  - /transforms: emgformer_regression_aug_best
+  - /lr_scheduler: cosine
   - override /module/featurizer: tds_slim
   - _self_
 
@@ -31,9 +31,9 @@ skip_emg_loading: false
 center_target_only: true
 
 # ── Checkpoints ──────────────────────────────────────────────────────────────
-vision_vit_checkpoint: /path/to/checkpoint.ckpt
+vision_vit_checkpoint: null
 pretrained_emg_checkpoint: 
-checkpoint: /path/to/checkpoint.ckpt
+checkpoint: null
 # ── Hydra output ─────────────────────────────────────────────────────────────
 hydra:
   run:

@@ -118,7 +118,7 @@ def train(
     if matmul_precision is not None:
         torch.set_float32_matmul_precision(str(matmul_precision))
 
-    if config.checkpoint is not None:
+    if config.get("checkpoint") is not None:
         log.info(f"Loading from checkpoint {config.checkpoint}")
         ckpt_path = Path(config.checkpoint).expanduser()
         checkpoint = torch.load(ckpt_path, map_location="cpu")

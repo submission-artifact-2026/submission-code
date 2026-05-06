@@ -6,7 +6,7 @@ defaults:
 
 data_location: /path/to/emg2pose_v3_memmap
 
-checkpoint: /path/to/checkpoint.ckpt
+checkpoint: null
 pretrained_strict: false
 
 # Algorithm settings

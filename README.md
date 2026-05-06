@@ -45,7 +45,18 @@ The benchmark uses two datasets:
 
 1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. Place the dataset and its memmap version at a location accessible to the training scripts.
 
-2. **EgoEmg** (our dataset): Will be released publicly upon paper acceptance. During review, an anonymized download link will be provided to reviewers.
+2. **EgoEmg** (our dataset): Available in two versions:
+   - **Small sample** (1 episode, ~1.1 GB memmap): [Google Drive](https://drive.google.com/drive/folders/1ON2CXvW2qbndW3b2AmCDI4jZlOJEBf5N) — suitable for quick validation and development
+   - **Full dataset**: [Google Drive](https://drive.google.com/drive/folders/12C6Q1CD1uihJhx4s0Rm2s7Um76Kh8rG1) — the complete EgoEMG benchmark
+
+   Download the memmap data:
+   ```bash
+   pip install gdown
+   # Small sample
+   gdown --folder https://drive.google.com/drive/folders/1ON2CXvW2qbndW3b2AmCDI4jZlOJEBf5N
+   # Full dataset
+   gdown --folder https://drive.google.com/drive/folders/12C6Q1CD1uihJhx4s0Rm2s7Um76Kh8rG1
+   ```
 
 For vision and fusion experiments, pre-cropped hand images are required. The crop preparation pipeline will be released alongside the dataset.
 
@@ -73,6 +84,16 @@ The benchmark defines three tasks under a shared 22-DoF joint-angle prediction t
 Evaluation uses cross-gesture, cross-user, and combined (both) generalization splits.
 
 ## Running Experiments
+
+### Quick Verification (no data needed)
+
+```bash
+# Dry-run all 23 experiment configs to verify correctness
+bash scripts/experiments/run_all_experiments.sh --dry_run
+
+# Dry-run a single experiment group
+bash scripts/experiments/run_all_experiments.sh --dry_run --group vision
+```
 
 ### EMGFormer on EMG2Pose
 
