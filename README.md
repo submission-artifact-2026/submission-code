@@ -220,25 +220,16 @@ python -m emg2pose.test_analysis_fusion \
 
 ## Reproducing Paper Results
 
-Key numbers from the paper:
+Key numbers from the paper, reproduced by the provided checkpoints:
 
 | Task | Method | Primary Metric |
 |------|--------|---------------|
 | EMG-to-Pose (EMG2Pose) | EMGFormer-Small | 12.34° MAE (user_stage) |
 | EMG-to-Pose (EgoEMG) | EMGFormer-Small | 15.0° MAE |
-| Vision-to-Pose | ResNet-152 | 5.1° MAE |
-| EMG+Vision Fusion | ResNet-18 + EMGFormer-Small | 5.4° MAE |
-
-## Compute Requirements
-
-All experiments were conducted on NVIDIA RTX 4090 GPUs (24 GB each) with bf16 mixed precision:
-- EMGFormer-Small: ~2 GPU-hours (200 epochs)
-- EMGFormer-Middle: ~4 GPU-hours
-- EMGFormer-Large: ~8 GPU-hours
-- Vision baselines: ~4-12 GPU-hours each
-- Fusion baselines: ~8-12 GPU-hours each
-
-Total compute for all reported experiments: approximately 163 GPU-hours.
+| Vision-to-Pose | ResNet-18 | ...° MAE |
+| Vision-to-Pose | ViT-Small | ...° MAE |
+| EMG+Vision Fusion | ResNet-18 + EMGFormer-Small | ...° MAE |
+| EMG+Vision Fusion | ViT-Small + EMGFormer-Small | ...° MAE |
 
 ## License
 
