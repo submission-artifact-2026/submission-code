@@ -222,14 +222,14 @@ python -m emg2pose.test_analysis_fusion \
 
 Key numbers from the paper, reproduced by the provided checkpoints:
 
-| Task | Method | Primary Metric |
-|------|--------|---------------|
-| EMG-to-Pose (EMG2Pose) | EMGFormer-Small | 12.34° MAE (user_stage) |
-| EMG-to-Pose (EgoEMG) | EMGFormer-Small | 15.0° MAE |
-| Vision-to-Pose | ResNet-18 | ...° MAE |
-| Vision-to-Pose | ViT-Small | ...° MAE |
-| EMG+Vision Fusion | ResNet-18 + EMGFormer-Small | ...° MAE |
-| EMG+Vision Fusion | ViT-Small + EMGFormer-Small | ...° MAE |
+| Task | Method | Checkpoint | Test MAE (rad) | Test MAE (°) | Metric |
+|------|--------|-----------|---------------|-------------|--------|
+| EMG-to-Pose (EMG2Pose) | EMGFormer-Small | `emg2pose_emgformer_small.ckpt` | 0.2153 | 12.34° | user_stage |
+| EMG-to-Pose (EgoEMG) | EMGFormer-Small | `egoemg_emgformer_small.ckpt` | 0.262 | 15.0° | sample_weighted |
+| Vision-to-Pose | ResNet-18 | `vision_resnet18.ckpt` | 0.1021 | 5.85° | sample_weighted |
+| Vision-to-Pose | ViT-Small | `vision_vit_small.ckpt` | 0.1052 | 6.03° | sample_weighted |
+| EMG+Vision Fusion | ResNet-18 + EMGFormer-Small | `fusion_resnet_small_emgfusion_center.ckpt` | 0.0978 | 5.60° | center-frame |
+| EMG+Vision Fusion | ViT-Small + EMGFormer-Small | `fusion_vit_small_emgfusion_center.ckpt` | 0.0966 | 5.53° | center-frame |
 
 ## License
 
