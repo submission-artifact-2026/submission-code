@@ -24,7 +24,6 @@ EgoEmg is a multimodal egocentric dataset for bimanual hand pose estimation, pro
 │   │   ├── emg2pose/      # Traditional EMG architectures
 │   │   └── fusion/        # Vision-only and EMG+vision fusion
 │   └── module/            # Model component configs
-├── test_results/          # Reproduced experiment results
 ├── assets/                # Normalization statistics
 ├── environment.yml        # Conda environment specification
 └── setup.py               # Package installation
@@ -110,7 +109,7 @@ Evaluation uses cross-gesture, cross-user, and combined (both) generalization sp
 ### Quick Verification (no data needed)
 
 ```bash
-# Dry-run all 23 experiment configs to verify correctness
+# Dry-run all experiment configs to verify correctness
 bash scripts/experiments/run_all_experiments.sh --dry_run
 
 # Dry-run a single experiment group
@@ -148,17 +147,19 @@ python -m emg2pose.train \
 ```bash
 # vEMG2Pose (LSTM)
 python -m emg2pose.train \
-  experiment=emg2pose/egoemg_vemg2pose
+  experiment=emg2pose/egoemg_vemg2pose \
+  egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
 # EMG2Pose (TDS + MLP)
 python -m emg2pose.train \
-  experiment=emg2pose/egoemg_emg2pose
+  experiment=emg2pose/egoemg_emg2pose \
+  egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
 # NeuroPose (CNN encoder-decoder)
 python -m emg2pose.train \
-  experiment=emg2pose/egoemg_neuropose
+  experiment=emg2pose/egoemg_neuropose \
+  egoemg_memmap_dir=/path/to/EgoEMG_memmap
 ```
-
 
 ### Vision-to-Pose
 
@@ -214,16 +215,10 @@ For fusion model analysis:
 ```bash
 python -m emg2pose.test_analysis_fusion \
   --config-name vision_resnet_small_emgfusion_center \
-  checkpoint=/path/to/checkpoint.ckpt
+  --checkpoint /path/to/checkpoint.ckpt
 ```
 
 ## Reproducing Paper Results
-
-Reproduced results for all experiments reported in the paper are stored in `test_results/`. Each subdirectory contains:
-- `results.csv`: Primary metrics on test splits
-- `README.md`: Experiment-specific configuration details
-
-The `test_results/all_results_index.csv` provides a one-line index of every experiment with its primary metric.
 
 Key numbers from the paper:
 

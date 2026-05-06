@@ -26,7 +26,7 @@ DRY_RUN=false
 MODE="all"
 EXP=""
 GROUP=""
-DATA_LOCATION="${DATA_LOCATION:-/path/to/data}"
+DATA_LOCATION="${DATA_LOCATION:-/path/to/emg2pose_v3}"
 EGOEMG_MEMAP_DIR="${EGOEMG_MEMAP_DIR:-/path/to/EgoEMG_memmap}"
 
 # ── Parse arguments ─────────────────────────────────────────────────────────

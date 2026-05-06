@@ -41,8 +41,7 @@ optimizer:
 dataset:
   train:
     - _target_: emg2pose.datasets.emg2pose_dataset.Emg2PoseDataset
-      root_dir: /path/to/emg2pose_v3
-      memmap_dir: /path/to/emg2pose_v3_memmap
+      memmap_dir: ${data_location}
       window_length: 7_790
       stride: null
       padding: [0, 0]
@@ -51,8 +50,7 @@ dataset:
       allowed_splits: [train]
   val:
     - _target_: emg2pose.datasets.emg2pose_dataset.Emg2PoseDataset
-      root_dir: /path/to/emg2pose_v3
-      memmap_dir: /path/to/emg2pose_v3_memmap
+      memmap_dir: ${data_location}
       window_length: 7_790
       stride: null
       padding: [0, 0]
@@ -61,8 +59,7 @@ dataset:
       allowed_splits: [val]
   test:
     - _target_: emg2pose.datasets.emg2pose_dataset.Emg2PoseDataset
-      root_dir: /path/to/emg2pose_v3
-      memmap_dir: /path/to/emg2pose_v3_memmap
+      memmap_dir: ${data_location}
       window_length: 7_790
       stride: null
       padding: [0, 0]
