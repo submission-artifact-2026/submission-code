@@ -650,7 +650,6 @@ class EmgPredictionModule(pl.LightningModule):
     ) -> torch.Tensor:
         self._warn_if_gumbel_unfrozen()
         logits_for_head = logits.permute(0, 3, 2, 1).contiguous()  # (B, K, T, L)
-        # import ipdb;ipdb.set_trace()
         pred_angles = self.model.head.decode_from_logits_gumbel(
             logits_for_head, tau=self.gumbel_tau, hard=self.gumbel_hard
         )

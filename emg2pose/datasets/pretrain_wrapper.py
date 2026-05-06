@@ -261,7 +261,6 @@ class PretrainWrapperDataset(Dataset):
         # Handle keystroke labels for emg2qwerty dataset
         keystroke_labels = sample.get("target_keystrokes")
         if keystroke_labels is not None:
-            # import ipdb; ipdb.set_trace()
             keystroke_labels = _as_tensor(keystroke_labels, dtype=torch.long)
         else:
             keystroke_labels = torch.tensor([], dtype=torch.long)
