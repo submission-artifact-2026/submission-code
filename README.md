@@ -1,6 +1,6 @@
 # EgoEmg Benchmark
 
-This repository contains the official baseline code for the **EgoEmg dataset** and benchmark, submitted to NeurIPS 2026 Datasets & Benchmarks Track.
+This repository contains the official baseline code for the **EgoEmg dataset** and benchmark.
 
 EgoEmg is a multimodal egocentric dataset for bimanual hand pose estimation, providing synchronized bilateral wristband EMG, IMU, egocentric RGB video, external RGB-D video, and mocap-derived MANO hand pose annotations with wrist articulation angles.
 
@@ -42,7 +42,7 @@ pip install -e .
 
 The benchmark uses two datasets:
 
-1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. Available on Google Drive — use the download script or `gdown` directly:
+1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. *(Coming soon.)*
    ```bash
    pip install gdown
    bash scripts/download/download_emg2pose_data.sh /path/to/data
@@ -65,7 +65,7 @@ For vision and fusion experiments, pre-cropped hand images are required. The cro
 
 ### Pretrained Checkpoints
 
-Six pretrained checkpoints covering the main benchmark tasks are provided on Google Drive:
+Six pretrained checkpoints covering the main benchmark tasks will be provided. *(Coming soon.)*
 
 | Checkpoint | Task | Architecture |
 |-----------|------|--------------|
@@ -76,7 +76,7 @@ Six pretrained checkpoints covering the main benchmark tasks are provided on Goo
 | `fusion_resnet_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ResNet-18 + EMGFormer-Small |
 | `fusion_vit_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ViT-Small + EMGFormer-Small |
 
-Download all checkpoints:
+Download all checkpoints (coming soon):
 ```bash
 bash scripts/download/download_checkpoints.sh
 ```
@@ -249,10 +249,9 @@ The baseline code is distributed under the MIT License. The EgoEmg dataset will 
 If you use this benchmark or dataset in your research, please cite:
 
 ```bibtex
-@inproceedings{egoemg2026,
+@article{egoemg2026,
   title={EgoEmg: A Multimodal Egocentric Dataset with Bilateral EMG and Vision for Hand Pose Estimation},
   author={Anonymous},
-  booktitle={Advances in Neural Information Processing Systems (NeurIPS) Datasets and Benchmarks Track},
   year={2026}
 }
 ```

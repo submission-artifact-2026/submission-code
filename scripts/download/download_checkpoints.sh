@@ -7,11 +7,13 @@
 # Usage:
 #   bash scripts/download/download_checkpoints.sh
 #
+# NOTE: Coming soon.
+#
 # Six checkpoints are provided:
 #   ┌──────────────────────────────────────────────────┬──────────────────────────────┐
 #   │ Experiment                                       │ Checkpoint                   │
 #   ├──────────────────────────────────────────────────┼──────────────────────────────┤
-#   │ EMG2Pose EMGFormer-Small                         │ *_emgformer_small          │
+#   │ EMG2Pose EMGFormer-Small                         │ *_emgformer_small            │
 #   │ EgoEmg EMGFormer-Small                           │ *_emgformer_small            │
 #   │ Vision ResNet-18                                 │ *_vision_resnet18            │
 #   │ Vision ViT-Small                                  │ *_vision_vit_small           │
@@ -22,28 +24,30 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
-# ── Google Drive file IDs ──────────────────────────────────────────────────
-# These IDs correspond to the six checkpoints listed above.
-# Replace with actual IDs after uploading to Google Drive.
-declare -A CKPT_IDS=(
-  [emg2pose_emgformer_small]="<GDRIVE_FILE_ID>"
-  [egoemg_emgformer_small]="<GDRIVE_FILE_ID>"
-  [vision_resnet18]="<GDRIVE_FILE_ID>"
-  [vision_vit_small]="<GDRIVE_FILE_ID>"
-  [fusion_resnet_small_emgfusion_center]="<GDRIVE_FILE_ID>"
-  [fusion_vit_small_emgfusion_center]="<GDRIVE_FILE_ID>"
+# ── Google Drive folder containing all checkpoints ──────────────────────────
+# Same folder as the EgoEMG full dataset.
+GDRIVE_FOLDER_ID="12C6Q1CD1uihJhx4s0Rm2s7Um76Kh8rG1"
+
+declare -A CKPT_NAMES=(
+  [emg2pose_emgformer_small]="emg2pose_emgformer_small.ckpt"
+  [egoemg_emgformer_small]="egoemg_emgformer_small.ckpt"
+  [vision_resnet18]="vision_resnet18.ckpt"
+  [vision_vit_small]="vision_vit_small.ckpt"
+  [fusion_resnet_small_emgfusion_center]="fusion_resnet_small_emgfusion_center.ckpt"
+  [fusion_vit_small_emgfusion_center]="fusion_vit_small_emgfusion_center.ckpt"
 )
 
 mkdir -p checkpoints
 
-for name in "${!CKPT_IDS[@]}"; do
-  file_id="${CKPT_IDS[$name]}"
-  if [[ "$file_id" == "<GDRIVE_FILE_ID>" ]]; then
-    echo "Skipping $name (no Google Drive ID set)"
-    continue
-  fi
+echo "NOTE: Pretrained checkpoints are coming soon."
+
+for name in "${!CKPT_NAMES[@]}"; do
+  filename="${CKPT_NAMES[$name]}"
   echo "Downloading $name ..."
-  gdown "https://drive.google.com/uc?id=$file_id" -O "checkpoints/${name}.ckpt"
+  gdown "https://drive.google.com/drive/folders/${GDRIVE_FOLDER_ID}" -O "checkpoints/${filename}" --remaining-ok 2>/dev/null || {
+    echo "Checkpoint $name is not yet available (coming soon)."
+    continue
+  }
 done
 
-echo "All checkpoints downloaded."
+echo "Done."
