@@ -6,7 +6,7 @@ defaults:
   - override /module/decoder: transformer/preset/large
   - override /dataset: egoemg_angle_regression
   - override /lr_scheduler: cosine
-  - override /transforms: emgformer_regression_aug_best
+  - override /transforms: rotation_augmentation
   - _self_
 
 # checkpoint: /path/to/checkpoint.ckpt
@@ -51,12 +51,13 @@ datamodule:
   skip_ik_failures: false
 
 optimizer:
-  lr: 0.0005
+  lr: 0.00005
+checkpoint: null
 trainer:
   gradient_clip_val: 1
-  devices: [0,1,2,3,4,5]
+  devices: [1,2,3,4,5]
   precision: bf16-mixed
-  max_epochs: 300
+  max_epochs: 200
   check_val_every_n_epoch: 1
   log_every_n_steps: 5
 

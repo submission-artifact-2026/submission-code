@@ -1,5 +1,5 @@
 # @package _global_
-# Large: one step above middle_aggressive with a wider/deeper decoder.
+# Large: one step above middle with a wider/deeper decoder.
 defaults:
   - /module: emgformer
   - override /module/featurizer: tds_slim

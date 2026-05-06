@@ -1,5 +1,5 @@
 # @package _global_
-# Middle Aggressive: ~6.6M params, featurizer ~25%, decoder ~72%
+# Middle: ~6.6M params, featurizer ~25%, decoder ~72%
 defaults:
   - /module: emgformer
   - override /module/featurizer: tds_slim

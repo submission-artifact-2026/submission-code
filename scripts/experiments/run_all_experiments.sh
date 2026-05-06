@@ -58,18 +58,12 @@ declare -A EGOEMG_EMGFORMER_EXPS=(
   [egoemg_emgformer_small]="emgformer/egoemg_emgformer_small"
   [egoemg_emgformer_middle]="emgformer/egoemg_emgformer_middle"
   [egoemg_emgformer_large]="emgformer/egoemg_emgformer_large"
-  [egoemg_emgformer_small_scratch]="emgformer/egoemg_emgformer_small_scratch"
-  [egoemg_emgformer_middle_scratch]="emgformer/egoemg_emgformer_middle_scratch"
-  [egoemg_emgformer_large_scratch]="emgformer/egoemg_emgformer_large_scratch"
 )
 
 declare -A EGOEMG_BASELINE_EXPS=(
   [egoemg_vemg2pose]="emg2pose/egoemg_vemg2pose"
-  [egoemg_vemg2pose_aug]="emg2pose/egoemg_vemg2pose_aug"
   [egoemg_emg2pose]="emg2pose/egoemg_emg2pose"
-  [egoemg_emg2pose_aug]="emg2pose/egoemg_emg2pose_aug"
   [egoemg_neuropose]="emg2pose/egoemg_neuropose"
-  [egoemg_neuropose_aug]="emg2pose/egoemg_neuropose_aug"
 )
 
 declare -A VISION_EXPS=(

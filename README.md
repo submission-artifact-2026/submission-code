@@ -133,17 +133,14 @@ python -m emg2pose.train \
 ### EMGFormer on EgoEmg
 
 ```bash
-# With augmentation
 python -m emg2pose.train \
   train=True eval=True \
   experiment=emgformer/egoemg_emgformer_small \
   egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
-# Without augmentation (scratch training)
-python -m emg2pose.train \
-  train=True eval=True \
-  experiment=emgformer/egoemg_emgformer_small_scratch \
-  egoemg_memmap_dir=/path/to/EgoEMG_memmap
+# Other model sizes:
+# experiment=emgformer/egoemg_emgformer_middle
+# experiment=emgformer/egoemg_emgformer_large
 ```
 
 ### Traditional EMG Architectures on EgoEMg
@@ -162,7 +159,6 @@ python -m emg2pose.train \
   experiment=emg2pose/egoemg_neuropose
 ```
 
-Each also has a `_aug` variant with training-time EMG augmentation.
 
 ### Vision-to-Pose
 

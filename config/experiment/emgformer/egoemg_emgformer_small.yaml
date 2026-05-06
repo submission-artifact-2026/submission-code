@@ -5,10 +5,10 @@ defaults:
   - override /module/decoder: transformer/preset/small
   - override /dataset: egoemg_angle_regression
   - override /lr_scheduler: cosine
-  - override /transforms: emgformer_regression_aug_best
+  - override /transforms: rotation_augmentation
   - _self_
 
-checkpoint: 
+checkpoint: null
 pretrained_checkpoint: null
 pretrained_strict: false
 
@@ -36,10 +36,10 @@ module:
 
 ignore_head_tail_dims: 0
 
-num_workers: 10
+num_workers: 6
 
 datamodule:
-  prefetch_factor: 2
+  prefetch_factor: 1
   persistent_workers: true
   pin_memory: false
   window_length: 7_790
@@ -51,14 +51,14 @@ datamodule:
   skip_ik_failures: false
 
 optimizer:
-  lr: 0.0005
+  lr: 0.00005
 
 trainer:
   gradient_clip_val: 1
   devices: [1,2,3,4,5]
   # devices: 1
   precision: bf16-mixed
-  max_epochs: 300
+  max_epochs: 200
   check_val_every_n_epoch: 1
   log_every_n_steps: 5
 
