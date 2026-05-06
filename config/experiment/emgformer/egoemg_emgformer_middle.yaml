@@ -1,5 +1,5 @@
 # @package _global_
-# Middle Aggressive on EgoEMG: 22-dim output (20 joint angles + 2 wrist yaw/pitch)
+# Middle on EgoEMG: 22-dim output (20 joint angles + 2 wrist yaw/pitch)
 defaults:
   - /module: emgformer
   - override /module/featurizer: tds_slim

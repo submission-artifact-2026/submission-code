@@ -9,7 +9,8 @@
 #   - decoder in_channels: 84→86 (64 features + 22 state)
 #
 # Usage:
-#   python -m emg2pose.train experiment=emg2pose/egoemg_vemg2pose
+#   python -m emg2pose.train experiment=emg2pose/egoemg_vemg2pose \
+#     egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
 defaults:
   - /module: vemg_with_initial_state

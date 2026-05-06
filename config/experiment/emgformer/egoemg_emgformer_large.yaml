@@ -9,7 +9,6 @@ defaults:
   - override /transforms: rotation_augmentation
   - _self_
 
-# checkpoint: /path/to/checkpoint.ckpt
 pretrained_checkpoint: null
 pretrained_strict: false
 

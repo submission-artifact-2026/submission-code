@@ -11,7 +11,7 @@
 # Usage:
 #   python -m emg2pose.train \
 #     experiment=emg2pose/egoemg_emg2pose \
-#     data_location=/path/to/EgoEMG_memmap
+#     egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
 defaults:
   - /module: pose_stateful
