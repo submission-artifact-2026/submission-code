@@ -43,7 +43,11 @@ pip install -e .
 
 The benchmark uses two datasets:
 
-1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. Place the dataset and its memmap version at a location accessible to the training scripts.
+1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. Available on Google Drive — use the download script or `gdown` directly:
+   ```bash
+   pip install gdown
+   bash scripts/download/download_emg2pose_data.sh /path/to/data
+   ```
 
 2. **EgoEmg** (our dataset): Available in two versions:
    - **Small sample** (1 episode, ~1.1 GB memmap): [Google Drive](https://drive.google.com/drive/folders/1ON2CXvW2qbndW3b2AmCDI4jZlOJEBf5N) — suitable for quick validation and development
@@ -59,6 +63,24 @@ The benchmark uses two datasets:
    ```
 
 For vision and fusion experiments, pre-cropped hand images are required. The crop preparation pipeline will be released alongside the dataset.
+
+### Pretrained Checkpoints
+
+Six pretrained checkpoints covering the main benchmark tasks are provided on Google Drive:
+
+| Checkpoint | Task | Architecture |
+|-----------|------|--------------|
+| `emg2pose_emgformer_small.ckpt` | EMG-to-Pose (EMG2Pose) | EMGFormer-Small |
+| `egoemg_emgformer_small.ckpt` | EMG-to-Pose (EgoEMG) | EMGFormer-Small |
+| `vision_resnet18.ckpt` | Vision-to-Pose | ResNet-18 |
+| `vision_vit_small.ckpt` | Vision-to-Pose | ViT-Small |
+| `fusion_resnet_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ResNet-18 + EMGFormer-Small |
+| `fusion_vit_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ViT-Small + EMGFormer-Small |
+
+Download all checkpoints:
+```bash
+bash scripts/download/download_checkpoints.sh
+```
 
 ### Configuration
 
@@ -100,12 +122,12 @@ bash scripts/experiments/run_all_experiments.sh --dry_run --group vision
 ```bash
 python -m emg2pose.train \
   train=True eval=True \
-  experiment=emgformer/regression_emgformer_small_aggressive \
+  experiment=emgformer/emg2pose_emgformer_small \
   data_location=/path/to/emg2pose_v3
 
 # Other model sizes:
-# experiment=emgformer/regression_emgformer_middle_aggressive
-# experiment=emgformer/regression_emgformer_large_aggressive
+# experiment=emgformer/emg2pose_emgformer_middle
+# experiment=emgformer/emg2pose_emgformer_large
 ```
 
 ### EMGFormer on EgoEmg
@@ -114,13 +136,13 @@ python -m emg2pose.train \
 # With augmentation
 python -m emg2pose.train \
   train=True eval=True \
-  experiment=emgformer/regression_emgformer_small_aggressive_egoemg \
+  experiment=emgformer/egoemg_emgformer_small \
   egoemg_memmap_dir=/path/to/EgoEMG_memmap
 
 # Without augmentation (scratch training)
 python -m emg2pose.train \
   train=True eval=True \
-  experiment=emgformer/regression_emgformer_small_aggressive_egoemg_wo_aug \
+  experiment=emgformer/egoemg_emgformer_small_scratch \
   egoemg_memmap_dir=/path/to/EgoEMG_memmap
 ```
 
@@ -129,18 +151,18 @@ python -m emg2pose.train \
 ```bash
 # vEMG2Pose (LSTM)
 python -m emg2pose.train \
-  experiment=emg2pose/regression_vemg2pose_egoemg
+  experiment=emg2pose/egoemg_vemg2pose
 
 # EMG2Pose (TDS + MLP)
 python -m emg2pose.train \
-  experiment=emg2pose/regression_emg2pose_egoemg
+  experiment=emg2pose/egoemg_emg2pose
 
 # NeuroPose (CNN encoder-decoder)
 python -m emg2pose.train \
-  experiment=emg2pose/regression_neuropose_egoemg
+  experiment=emg2pose/egoemg_neuropose
 ```
 
-Each also has a `_with_aug` variant with training-time EMG augmentation.
+Each also has a `_aug` variant with training-time EMG augmentation.
 
 ### Vision-to-Pose
 
@@ -178,7 +200,7 @@ The fusion configs automatically load pretrained vision and EMG checkpoints. Set
 ```bash
 python -m emg2pose.train \
   train=False eval=True \
-  experiment=emgformer/regression_emgformer_small_aggressive \
+  experiment=emgformer/emg2pose_emgformer_small \
   checkpoint=/path/to/checkpoint.ckpt \
   data_location=/path/to/emg2pose_v3
 ```
@@ -187,7 +209,7 @@ python -m emg2pose.train \
 
 ```bash
 python -m emg2pose.test_analysis \
-  experiment=emgformer/regression_emgformer_middle_aggressive \
+  experiment=emgformer/emg2pose_emgformer_middle \
   checkpoint=/path/to/checkpoint.ckpt \
   data_location=/path/to/emg2pose_v3
 ```

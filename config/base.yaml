@@ -6,7 +6,7 @@ defaults:
   - lr_scheduler: cosine
   - data_split: full_split
   - transforms: rotation_augmentation
-  - experiment: emgformer/regression_emgformer_small_aggressive
+  - experiment: emgformer/emg2pose_emgformer_small
 
 data_location: /path/to/emg2pose_v3
 
@@ -79,6 +79,7 @@ hydra:
   output_subdir: hydra_configs
   job:
     name: emg2pose
+    chdir: false
     config:
       override_dirname:
         exclude_keys:

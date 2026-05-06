@@ -16,9 +16,9 @@ DATA_LOCATION="${1:-/path/to/emg2pose_v3}"
 DRY_RUN="${2:-}"
 
 EMGFORMER_EXPS=(
-  emgformer/regression_emgformer_small_aggressive
-  emgformer/regression_emgformer_middle_aggressive
-  emgformer/regression_emgformer_large_aggressive
+  emgformer/emg2pose_emgformer_small
+  emgformer/emg2pose_emgformer_middle
+  emgformer/emg2pose_emgformer_large
 )
 
 for exp in "${EMGFORMER_EXPS[@]}"; do

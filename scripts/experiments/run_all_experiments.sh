@@ -49,27 +49,27 @@ fi
 
 # ── All experiments by group ────────────────────────────────────────────────
 declare -A EMG2POSE_EXPS=(
-  [emg2pose_small]="emgformer/regression_emgformer_small_aggressive"
-  [emg2pose_middle]="emgformer/regression_emgformer_middle_aggressive"
-  [emg2pose_large]="emgformer/regression_emgformer_large_aggressive"
+  [emg2pose_emgformer_small]="emgformer/emg2pose_emgformer_small"
+  [emg2pose_emgformer_middle]="emgformer/emg2pose_emgformer_middle"
+  [emg2pose_emgformer_large]="emgformer/emg2pose_emgformer_large"
 )
 
 declare -A EGOEMG_EMGFORMER_EXPS=(
-  [egoemg_small_aug]="emgformer/regression_emgformer_small_aggressive_egoemg"
-  [egoemg_middle_aug]="emgformer/regression_emgformer_middle_aggressive_egoemg"
-  [egoemg_large_aug]="emgformer/regression_emgformer_large_aggressive_egoemg"
-  [egoemg_small_wo_aug]="emgformer/regression_emgformer_small_aggressive_egoemg_wo_aug"
-  [egoemg_middle_wo_aug]="emgformer/regression_emgformer_middle_aggressive_egoemg_wo_aug"
-  [egoemg_large_wo_aug]="emgformer/regression_emgformer_large_aggressive_egoemg_wo_aug"
+  [egoemg_emgformer_small]="emgformer/egoemg_emgformer_small"
+  [egoemg_emgformer_middle]="emgformer/egoemg_emgformer_middle"
+  [egoemg_emgformer_large]="emgformer/egoemg_emgformer_large"
+  [egoemg_emgformer_small_scratch]="emgformer/egoemg_emgformer_small_scratch"
+  [egoemg_emgformer_middle_scratch]="emgformer/egoemg_emgformer_middle_scratch"
+  [egoemg_emgformer_large_scratch]="emgformer/egoemg_emgformer_large_scratch"
 )
 
 declare -A EGOEMG_BASELINE_EXPS=(
-  [vemg2pose_wo_aug]="emg2pose/regression_vemg2pose_egoemg"
-  [vemg2pose_with_aug]="emg2pose/regression_vemg2pose_egoemg_with_aug"
-  [emg2pose_wo_aug]="emg2pose/regression_emg2pose_egoemg"
-  [emg2pose_with_aug]="emg2pose/regression_emg2pose_egoemg_with_aug"
-  [neuropose_wo_aug]="emg2pose/regression_neuropose_egoemg"
-  [neuropose_with_aug]="emg2pose/regression_neuropose_egoemg_with_aug"
+  [egoemg_vemg2pose]="emg2pose/egoemg_vemg2pose"
+  [egoemg_vemg2pose_aug]="emg2pose/egoemg_vemg2pose_aug"
+  [egoemg_emg2pose]="emg2pose/egoemg_emg2pose"
+  [egoemg_emg2pose_aug]="emg2pose/egoemg_emg2pose_aug"
+  [egoemg_neuropose]="emg2pose/egoemg_neuropose"
+  [egoemg_neuropose_aug]="emg2pose/egoemg_neuropose_aug"
 )
 
 declare -A VISION_EXPS=(
@@ -94,7 +94,7 @@ run_emg_exp() {
     $TRAIN_FLAG \
     experiment="$exp" \
     data_location="$DATA_LOCATION" \
-    egoemg_memmap_dir="$EGOEMG_MEMAP_DIR"
+    ++egoemg_memmap_dir="$EGOEMG_MEMAP_DIR"
   echo ""
 }
 
@@ -102,8 +102,8 @@ run_vision_exp() {
   local cfg="$1"
   echo "=== Running: $cfg ==="
   python -m emg2pose.train \
-    $TRAIN_FLAG \
     $cfg \
+    $TRAIN_FLAG \
     egoemg_memmap_dir="$EGOEMG_MEMAP_DIR"
   echo ""
 }
