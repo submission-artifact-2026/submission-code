@@ -44,12 +44,6 @@ def _ensure_model_summary_callback(
 
 def make_lightning_module(config: DictConfig):
     """Create lightning module from experiment config."""
-    module_target = str(config.module.get("_target_", ""))
-    if module_target == "emg2pose.models.modules.emgformer_pretrain.EmgformerPretrain":
-        raise ValueError(
-            "This experiment config targets EmgformerPretrain and must be run via "
-            "`python -m emg2pose.train_pretrain ...`, not `python -m emg2pose.train ...`."
-        )
     return EmgPredictionModule(
         module_conf=config.module,
         optimizer_conf=config.optimizer,

@@ -12,18 +12,29 @@ EgoEmg is a multimodal egocentric dataset for bimanual hand pose estimation, pro
 │   ├── lightning.py       # PyTorch Lightning module
 │   ├── datamodule.py      # Data loading pipeline
 │   ├── metrics.py         # Evaluation metrics
-│   ├── test_analysis.py   # Offline evaluation script
+│   ├── test_analysis.py   # Offline EMG evaluation script
+│   ├── test_analysis_fusion.py  # Offline fusion evaluation script
 │   ├── models/            # Model architectures
 │   │   ├── modules/       # EMGFormer, vision backbones, fusion
 │   │   ├── featurizers/   # EMG featurizers (TDS, NeuroPose)
-│   │   └── decoders/      # Transformer, LSTM, MLP decoders
-│   └── datasets/          # EMG2Pose and EgoEMG dataset classes
+│   │   ├── decoders/      # Transformer, LSTM, MLP decoders
+│   │   └── heads/         # Prediction heads
+│   ├── datasets/          # EMG2Pose and EgoEMG dataset classes
+│   └── UmeTrack/          # Bundled hand kinematics library
 ├── config/                # Hydra experiment configuration
+│   ├── base.yaml          # Root config with shared defaults
 │   ├── experiment/        # Per-experiment configs
 │   │   ├── emgformer/     # EMGFormer on EMG2Pose and EgoEMG
 │   │   ├── emg2pose/      # Traditional EMG architectures
 │   │   └── fusion/        # Vision-only and EMG+vision fusion
-│   └── module/            # Model component configs
+│   ├── module/            # Model component configs
+│   ├── datamodule/        # Data loading configs
+│   ├── dataset/           # Dataset class configs
+│   ├── transforms/        # Augmentation configs
+│   └── vision_*.yaml      # Symlinks to fusion/ for --config-name access
+├── scripts/               # Utility scripts
+│   ├── experiments/       # Batch experiment runners
+│   └── download/          # Dataset & checkpoint download scripts
 ├── assets/                # Normalization statistics
 ├── environment.yml        # Conda environment specification
 └── setup.py               # Package installation
@@ -222,14 +233,21 @@ python -m emg2pose.test_analysis_fusion \
 
 Key numbers from the paper, reproduced by the provided checkpoints:
 
-| Task | Method | Checkpoint | Test MAE (rad) | Test MAE (°) | Metric |
-|------|--------|-----------|---------------|-------------|--------|
+| Task | Method | Checkpoint | Test MAE (rad) | Test MAE (°) | Aggregation |
+|------|--------|-----------|---------------|-------------|-------------|
 | EMG-to-Pose (EMG2Pose) | EMGFormer-Small | `emg2pose_emgformer_small.ckpt` | 0.2153 | 12.34° | user_stage |
 | EMG-to-Pose (EgoEMG) | EMGFormer-Small | `egoemg_emgformer_small.ckpt` | 0.262 | 15.0° | sample_weighted |
 | Vision-to-Pose | ResNet-18 | `vision_resnet18.ckpt` | 0.1021 | 5.85° | sample_weighted |
 | Vision-to-Pose | ViT-Small | `vision_vit_small.ckpt` | 0.1052 | 6.03° | sample_weighted |
 | EMG+Vision Fusion | ResNet-18 + EMGFormer-Small | `fusion_resnet_small_emgfusion_center.ckpt` | 0.0978 | 5.60° | center-frame |
 | EMG+Vision Fusion | ViT-Small + EMGFormer-Small | `fusion_vit_small_emgfusion_center.ckpt` | 0.0966 | 5.53° | center-frame |
+
+Aggregation strategy used by `test_analysis.py` and `test_analysis_fusion.py`:
+**user_stage** = held-out user generalization averaged across stage splits;
+**sample_weighted** = weighted average across all 6 EgoEMG splits (user/left,
+user/right, gesture/left, gesture/right, both/left, both/right);
+**center-frame** = MAE computed on the center frame of the sliding window,
+used for vision and fusion models that predict on single frames.
 
 ## License
 
