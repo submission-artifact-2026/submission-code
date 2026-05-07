@@ -42,7 +42,7 @@ pip install -e .
 
 The benchmark uses two datasets:
 
-1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. *(Coming soon.)*
+1. **EMG2Pose** ([Somasundaram et al., 2024](https://arxiv.org/abs/2412.02719)): Preprocessed into memmap format for efficient loading. Available in the same folder as the EgoEMG full dataset.
    ```bash
    pip install gdown
    bash scripts/download/download_emg2pose_data.sh /path/to/data
@@ -65,7 +65,7 @@ For vision and fusion experiments, pre-cropped hand images are required. The cro
 
 ### Pretrained Checkpoints
 
-Six pretrained checkpoints covering the main benchmark tasks will be provided. *(Coming soon.)*
+Six pretrained checkpoints covering the main benchmark tasks are provided on [Google Drive](https://drive.google.com/drive/folders/1_JcHDs9uBIbFxbH0f41Sk95pCqXCcTFG):
 
 | Checkpoint | Task | Architecture |
 |-----------|------|--------------|
@@ -76,7 +76,7 @@ Six pretrained checkpoints covering the main benchmark tasks will be provided. *
 | `fusion_resnet_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ResNet-18 + EMGFormer-Small |
 | `fusion_vit_small_emgfusion_center.ckpt` | EMG+Vision Fusion | ViT-Small + EMGFormer-Small |
 
-Download all checkpoints (coming soon):
+Download all checkpoints:
 ```bash
 bash scripts/download/download_checkpoints.sh
 ```
