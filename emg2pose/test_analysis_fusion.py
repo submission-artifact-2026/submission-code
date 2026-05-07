@@ -6,7 +6,7 @@ the model output — the model decides what frames to evaluate (full-window for
 
 Usage:
     python -m emg2pose.test_analysis_fusion \\
-        experiment=fusion/vision_resnet_small_emgfusion_center \\
+        --config-name vision_resnet_small_emgfusion_center \\
         --checkpoint logs/fusion/resnet_small_emgfusion_center/version_9/checkpoints/last.ckpt
 """
 
@@ -53,7 +53,7 @@ class _DatasetWithIndex(torch.utils.data.Dataset):
 
 def _collate_fusion(batch: list[dict]) -> dict:
     """Collate that includes vision_features / vision_img / _idx for fusion models."""
-    from torch.utils.data._utils.collate import default_collate
+    from torch.utils.data import default_collate
 
     emg_batch = []
     for sample in batch:

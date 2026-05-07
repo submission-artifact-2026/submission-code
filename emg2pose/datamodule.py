@@ -209,29 +209,20 @@ class WindowedEmgDataModule(pl.LightningDataModule):
 
     @staticmethod
     def _collate_fn(batch: list[dict[str, Any]]) -> dict[str, Any]:
-        """Custom collate function to handle variable-length keystroke labels and dataset_name."""
+        """Custom collate function to handle dataset_name."""
         import torch
-        from torch.utils.data._utils.collate import default_collate
+        from torch.utils.data import default_collate
 
         if not batch:
             return {}
 
-        # Only pop keystroke_labels if the first sample has them (avoids
-        # allocating 48000 empty tensors when the field is absent).
-        has_keystroke = "keystroke_labels" in batch[0]
-        keystroke_labels = (
-            [sample.pop("keystroke_labels") for sample in batch]
-            if has_keystroke
-            else []
-        )
         dataset_names = [sample.pop("dataset_name", "unknown")
                         for sample in batch]
 
         # Use default collate for other fields
         collated = default_collate(batch)
 
-        # Add keystroke_labels and dataset_name as lists (not stacked)
-        collated["keystroke_labels"] = keystroke_labels
+        # Add dataset_name as list (not stacked)
         collated["dataset_name"] = dataset_names
 
         return collated

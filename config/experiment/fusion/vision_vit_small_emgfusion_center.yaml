@@ -32,7 +32,7 @@ center_target_only: true
 
 # ── Checkpoints ──────────────────────────────────────────────────────────────
 vision_vit_checkpoint: null
-pretrained_emg_checkpoint: 
+pretrained_emg_checkpoint: null
 checkpoint: null
 # ── Hydra output ─────────────────────────────────────────────────────────────
 hydra:

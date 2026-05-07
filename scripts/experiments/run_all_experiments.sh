@@ -9,7 +9,7 @@
 #   bash scripts/experiments/run_all_experiments.sh --dry_run
 #
 #   # Run a specific experiment
-#   bash scripts/experiments/run_all_experiments.sh --exp emg2pose_small
+#   bash scripts/experiments/run_all_experiments.sh --exp emg2pose_emgformer_small
 #
 #   # Run a group of experiments
 #   bash scripts/experiments/run_all_experiments.sh --group emg2pose
@@ -27,7 +27,11 @@ MODE="all"
 EXP=""
 GROUP=""
 DATA_LOCATION="${DATA_LOCATION:-/path/to/emg2pose_v3}"
-EGOEMG_MEMAP_DIR="${EGOEMG_MEMAP_DIR:-/path/to/EgoEMG_memmap}"
+EGOEMG_MEMMAP_DIR="${EGOEMG_MEMMAP_DIR:-/path/to/EgoEMG_memmap}"
+PER_EPISODE_CROPS_DIR="${PER_EPISODE_CROPS_DIR:-/path/to/EgoEMG_crops}"
+VISION_RESNET_CHECKPOINT="${VISION_RESNET_CHECKPOINT:-}"
+VISION_VIT_CHECKPOINT="${VISION_VIT_CHECKPOINT:-}"
+PRETRAINED_EMG_CHECKPOINT="${PRETRAINED_EMG_CHECKPOINT:-}"
 
 # ── Parse arguments ─────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -36,7 +40,8 @@ while [[ $# -gt 0 ]]; do
     --exp) EXP="$2"; shift 2 ;;
     --group) GROUP="$2"; shift 2 ;;
     --data) DATA_LOCATION="$2"; shift 2 ;;
-    --egoemg) EGOEMG_MEMAP_DIR="$2"; shift 2 ;;
+    --egoemg) EGOEMG_MEMMAP_DIR="$2"; shift 2 ;;
+    --crops) PER_EPISODE_CROPS_DIR="$2"; shift 2 ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
 done
@@ -88,7 +93,7 @@ run_emg_exp() {
     $TRAIN_FLAG \
     experiment="$exp" \
     data_location="$DATA_LOCATION" \
-    ++egoemg_memmap_dir="$EGOEMG_MEMAP_DIR"
+    egoemg_memmap_dir="$EGOEMG_MEMMAP_DIR"
   echo ""
 }
 
@@ -98,19 +103,42 @@ run_vision_exp() {
   python -m emg2pose.train \
     $cfg \
     $TRAIN_FLAG \
-    egoemg_memmap_dir="$EGOEMG_MEMAP_DIR"
+    egoemg_memmap_dir="$EGOEMG_MEMMAP_DIR" \
+    per_episode_crops_dir="$PER_EPISODE_CROPS_DIR"
+  echo ""
+}
+
+run_fusion_exp() {
+  local cfg="$1"
+  local extra_args=()
+  # Pass checkpoint paths if set via environment
+  [[ -n "$VISION_RESNET_CHECKPOINT" ]] && extra_args+=("vision_resnet_checkpoint=$VISION_RESNET_CHECKPOINT")
+  [[ -n "$VISION_VIT_CHECKPOINT" ]] && extra_args+=("vision_vit_checkpoint=$VISION_VIT_CHECKPOINT")
+  [[ -n "$PRETRAINED_EMG_CHECKPOINT" ]] && extra_args+=("pretrained_emg_checkpoint=$PRETRAINED_EMG_CHECKPOINT")
+  echo "=== Running: $cfg ==="
+  python -m emg2pose.train \
+    $cfg \
+    $TRAIN_FLAG \
+    egoemg_memmap_dir="$EGOEMG_MEMMAP_DIR" \
+    per_episode_crops_dir="$PER_EPISODE_CROPS_DIR" \
+    "${extra_args[@]:-}"
   echo ""
 }
 
 run_group() {
-  local -n exps=$1
+  local name="$1"
+  local -n exps=$2
   for key in "${!exps[@]}"; do
     echo ""
     echo "=========================================="
     echo "  Experiment: $key"
     echo "=========================================="
     if [[ "${exps[$key]}" == "--config-name"* ]]; then
-      run_vision_exp "${exps[$key]}"
+      if [[ "$name" == "fusion" ]]; then
+        run_fusion_exp "${exps[$key]}"
+      else
+        run_vision_exp "${exps[$key]}"
+      fi
     else
       run_emg_exp "${exps[$key]}"
     fi
@@ -124,7 +152,11 @@ if [ -n "$EXP" ]; then
     declare -n lookup=$group
     if [ -n "${lookup[$EXP]:-}" ]; then
       if [[ "${lookup[$EXP]}" == "--config-name"* ]]; then
-        run_vision_exp "${lookup[$EXP]}"
+        if [[ "$group" == "FUSION_EXPS" ]]; then
+          run_fusion_exp "${lookup[$EXP]}"
+        else
+          run_vision_exp "${lookup[$EXP]}"
+        fi
       else
         run_emg_exp "${lookup[$EXP]}"
       fi
@@ -138,20 +170,20 @@ fi
 
 if [ -n "$GROUP" ]; then
   case "$GROUP" in
-    emg2pose)        run_group EMG2POSE_EXPS ;;
-    egoemg_emgformer) run_group EGOEMG_EMGFORMER_EXPS ;;
-    egoemg_baselines) run_group EGOEMG_BASELINE_EXPS ;;
-    vision)           run_group VISION_EXPS ;;
-    fusion)           run_group FUSION_EXPS ;;
+    emg2pose)        run_group emg2pose EMG2POSE_EXPS ;;
+    egoemg_emgformer) run_group egoemg_emgformer EGOEMG_EMGFORMER_EXPS ;;
+    egoemg_baselines) run_group egoemg_baselines EGOEMG_BASELINE_EXPS ;;
+    vision)           run_group vision VISION_EXPS ;;
+    fusion)           run_group fusion FUSION_EXPS ;;
     *) echo "Unknown group: $GROUP (available: emg2pose, egoemg_emgformer, egoemg_baselines, vision, fusion)"; exit 1 ;;
   esac
 else
   # Run all experiments
   echo "Running all experiments..."
-  run_group EMG2POSE_EXPS
-  run_group EGOEMG_EMGFORMER_EXPS
-  run_group EGOEMG_BASELINE_EXPS
-  run_group VISION_EXPS
-  run_group FUSION_EXPS
+  run_group emg2pose EMG2POSE_EXPS
+  run_group egoemg_emgformer EGOEMG_EMGFORMER_EXPS
+  run_group egoemg_baselines EGOEMG_BASELINE_EXPS
+  run_group vision VISION_EXPS
+  run_group fusion FUSION_EXPS
   echo "All experiments completed."
 fi

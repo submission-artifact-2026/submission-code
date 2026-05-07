@@ -14,6 +14,9 @@ from emg2pose.models.vit_freeze import apply_vit_freeze
 
 log = logging.getLogger(__name__)
 
+# External dependency: WiLoR must be installed as a sibling directory.
+# Required only when vision_backbone_type="vit" (lazy import, see _build_vision_backbone).
+# WiLoR is NOT bundled with this repository.
 WILOR_PATH = Path(__file__).resolve().parents[3] / ".." / "WiLoR"
 if str(WILOR_PATH) not in sys.path:
     sys.path.insert(0, str(WILOR_PATH))

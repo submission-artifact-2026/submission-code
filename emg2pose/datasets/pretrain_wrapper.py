@@ -258,13 +258,6 @@ class PretrainWrapperDataset(Dataset):
             gesture_labels[i] = mapped
             gesture_masks[i] = mask
 
-        # Handle keystroke labels for emg2qwerty dataset
-        keystroke_labels = sample.get("target_keystrokes")
-        if keystroke_labels is not None:
-            keystroke_labels = _as_tensor(keystroke_labels, dtype=torch.long)
-        else:
-            keystroke_labels = torch.tensor([], dtype=torch.long)
-
         output = {
             "emg": emg,
             "label_valid_mask": valid_mask_t,
@@ -272,7 +265,6 @@ class PretrainWrapperDataset(Dataset):
             "angle_mask": angle_mask,
             "gesture_labels": gesture_labels,
             "gesture_masks": gesture_masks,
-            "keystroke_labels": keystroke_labels,
             "dataset_name": self.name,
         }
         if "emg_channel_mask" in sample:

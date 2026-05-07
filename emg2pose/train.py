@@ -82,12 +82,7 @@ def _is_pretrain_checkpoint(state_dict: dict[str, torch.Tensor] | None) -> bool:
     pretrain_prefixes = (
         "model.recon_head.",
         "model.gesture_head.",
-        "model.keystroke_head.",
         "model.angle_head.",  # Pretrain uses angle_head, regular uses head
-        # wav2vec2 SSL checkpoint keys
-        "model.quantizer.",
-        "model.mask_embedding",
-        "model.projection.",
     )
     return any(key.startswith(pretrain_prefixes) for key in state_dict.keys())
 
@@ -96,9 +91,6 @@ def train(
     config: DictConfig,
     extra_callbacks: Sequence[Callable] | None = None,
 ):
-    # import torch
-    # torch.autograd.set_detect_anomaly(True)
-    
     log.info(f"\nConfig:\n{OmegaConf.to_yaml(config)}")
 
     # Seed for determinism. This seeds torch, numpy and python random modules

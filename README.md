@@ -105,6 +105,8 @@ All experiment configurations use [Hydra](https://hydra.cc/) with YAML files und
 
 You can override these via command line or by editing the experiment config files.
 
+Vision and fusion experiments use `--config-name` instead of `experiment=`. This works via symlinks in `config/` (e.g. `config/vision_resnet18.yaml` → `config/experiment/fusion/vision_resnet18.yaml`). When copying the repository, ensure symlinks are preserved (use `cp -a` or `rsync -l`).
+
 ## Benchmark Tasks
 
 The benchmark defines three tasks under a shared 22-DoF joint-angle prediction target:
@@ -201,7 +203,7 @@ python -m emg2pose.train \
   per_episode_crops_dir=/path/to/EgoEMG_crops
 ```
 
-The fusion configs automatically load pretrained vision and EMG checkpoints. Set the `vision_resnet_checkpoint` and `pretrained_emg_checkpoint` fields to point to your trained models.
+The fusion configs require pretrained vision and EMG checkpoints. Set the `vision_resnet_checkpoint` (or `vision_vit_checkpoint`) and `pretrained_emg_checkpoint` fields to point to your trained models.
 
 ### Evaluation Only
 

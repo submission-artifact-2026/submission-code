@@ -13,7 +13,7 @@ from emg2pose.UmeTrack.lib.common.hand_skinning import skin_landmarks
 from torch import nn
 
 
-DEFAULT_HAND_MODEL_FILE_REL = "./UmeTrack/dataset/generic_hand_model.json"
+DEFAULT_HAND_MODEL_FILE_REL = "UmeTrack/dataset/generic_hand_model.json"
 
 
 def load_hand_model_from_dict(hand_model_dict) -> HandModel:

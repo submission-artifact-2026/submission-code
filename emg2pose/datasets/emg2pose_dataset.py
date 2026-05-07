@@ -4,8 +4,6 @@
 This version reads from numpy memmap files (.dat) with metadata stored in
 manifest.json and metadata.npz. This provides faster random access compared
 to zarr, especially for large-scale training.
-
-The original HDF5-based implementation is preserved in emg2pose_dataset_legacy.py.
 """
 from __future__ import annotations
 

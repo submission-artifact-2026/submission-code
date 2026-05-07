@@ -21,8 +21,6 @@ from emg2pose.lightning import EmgPredictionModule
 from emg2pose.train import _extract_state_dict, _is_pretrain_checkpoint, make_lightning_module
 from emg2pose.transforms import Compose
 
-DEFAULT_DATA_DIR = "/emg2pose_data/"
-
 
 class _DatasetWithIndex(torch.utils.data.Dataset):
     """Thin wrapper that adds the dataset index and metadata to each sample."""
@@ -926,7 +924,7 @@ def _egoemg_collate_fn(batch):
     """
     import torch
     import numpy as np
-    from torch.utils.data._utils.collate import default_collate
+    from torch.utils.data import default_collate
 
     if not batch:
         return {}

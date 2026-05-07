@@ -6,7 +6,7 @@
 #
 # This downloads the EMG2Pose memmap dataset to the specified directory.
 #
-# NOTE: Coming soon.
+# NOTE: Coming soon. The dataset will be released alongside the EgoEMG benchmark.
 
 set -euo pipefail
 
@@ -19,9 +19,9 @@ GDRIVE_FOLDER_ID="12C6Q1CD1uihJhx4s0Rm2s7Um76Kh8rG1"
 
 echo "Downloading EMG2Pose memmap dataset to $DATA_DIR ..."
 echo "NOTE: EMG2Pose data is coming soon."
-gdown --folder "https://drive.google.com/drive/folders/${GDRIVE_FOLDER_ID}" -O "$DATA_DIR" 2>/dev/null || {
-  echo "EMG2Pose data is not yet available (coming soon)."
+if ! gdown --folder "https://drive.google.com/drive/folders/${GDRIVE_FOLDER_ID}" -O "$DATA_DIR"; then
+  echo "EMG2Pose data is not yet available. It will be released alongside the EgoEMG benchmark."
   exit 1
-}
+fi
 
 echo "EMG2Pose dataset downloaded to $DATA_DIR"
