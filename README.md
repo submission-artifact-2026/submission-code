@@ -117,6 +117,25 @@ The benchmark defines three tasks under a shared 22-DoF joint-angle prediction t
 
 Evaluation uses cross-gesture, cross-user, and combined (both) generalization splits.
 
+## Project Page
+
+The academic project page for the EgoEMG paper is maintained in the
+[EMG2PP repository](https://github.com/zhenqis123/EMG2PP) under
+`docs/egoemg_academic_homepage/`.
+
+To publish it with GitHub Pages, configure the EMG2PP repository as:
+
+| Setting | Value |
+|---------|-------|
+| Source | Deploy from a branch |
+| Branch | `repro/xiziheng` or the branch containing `docs/egoemg_academic_homepage/` |
+| Folder | `/docs` |
+| Page path | `/egoemg_academic_homepage/` |
+
+After GitHub Pages is enabled, the expected project page URL is:
+
+`https://zhenqis123.github.io/EMG2PP/egoemg_academic_homepage/`
+
 ## Running Experiments
 
 ### Quick Verification (no data needed)
